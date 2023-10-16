@@ -14,13 +14,17 @@ public class TablasTexArea extends JFrame{
 
     private TablasTexArea() {
         setContentPane(panelMain);
+        pack();
+        txtTexto.requestFocus();
 
         // Para cuando se presiona el boton Enviar con el mouse
         btnEnviar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 EnviarMensaje();
-
+                tablaMultiplicar(txtTexto.getText());
+                txtTexto.setText(null);
+                txtTexto.requestFocus();
             }
         });
 
@@ -52,7 +56,8 @@ public class TablasTexArea extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String entrada = txtTexto.getText();
                 int numero = Integer.parseInt(entrada);
-                tablaMultiplicar(numero);
+                tablaMultiplicar(entrada);
+                txtTexto.setText(null);
             }
         });
 
@@ -85,11 +90,24 @@ public class TablasTexArea extends JFrame{
     }
 
     // Metodo para calcular la tabla de multiplicar
-    private void tablaMultiplicar(int numero) {
-        txtArea.setText("Tabla del " + numero + "\n");
-        for (int i=1; i <=10; i++) {
-            int resultado = numero * i;
-            txtArea.append(numero + " x " + i + " = " + resultado + "\n");
+    private void tablaMultiplicar(String entrada) {
+        //txtArea.append("Tabla del " + numero + "\n");
+        //txtArea.setText("Tabla del " + numero + "\n");
+        int numero = Integer.parseInt(entrada);
+
+        if (numero >= 1 && numero <= 10) {
+            txtArea.append("Tabla del " + numero + "\n");
+            for (int i=1; i <=10; i++) {
+                int resultado = numero * i;
+                txtArea.append(numero + " x " + i + " = " + resultado + "\n");
+            }
+            txtArea.append("\n");
+            txtTexto.setText(null);
+            txtTexto.requestFocus();
+        } else {
+            txtArea.append(entrada + "\n");
+            txtTexto.setText(null);
+            txtTexto.requestFocus();
         }
     }
 
