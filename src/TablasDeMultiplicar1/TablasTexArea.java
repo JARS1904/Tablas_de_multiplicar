@@ -1,7 +1,10 @@
-package TablasDeMulttiplicar;
+package TablasDeMultiplicar1;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class TablasTexArea extends JFrame{
     private JLabel lblTablas;
@@ -21,9 +24,16 @@ public class TablasTexArea extends JFrame{
         btnEnviar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                EnviarMensaje();
-                tablaMultiplicar(txtTexto.getText());
-                txtTexto.setText(null);
+                String entrada = txtTexto.getText();  // Guarda el contenido del textField
+
+                if (esNumero(entrada)) {
+                    txtTexto.setText(null);  // Borra el textField solo si es un número
+                } else {
+                    EnviarMensaje();  // Muestra el texto en el textArea si no es un número
+                    txtTexto.setText(null);
+                    txtTexto.requestFocus();
+                }
+                tablaMultiplicar(entrada);  // Llama a la función
                 txtTexto.requestFocus();
             }
         });
@@ -47,10 +57,10 @@ public class TablasTexArea extends JFrame{
         });
 
         /*
-        *Para obtener el numero en string del TextField,
-        *volverlo un entero y mostrar la tabla multiplicar
-        * del numero castadeao de string a int
-        */
+         *Para obtener el numero en string del TextField,
+         *volverlo un entero y mostrar la tabla multiplicar
+         * del numero castadeao de string a int
+         */
         txtTexto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,10 +72,10 @@ public class TablasTexArea extends JFrame{
         });
 
         /*
-        * Para cuando se quiere usar la tecla ENTER del teclado
-        * agregara el texto al TextArea y borrara el texto del
-        * JTextFild
-        * */
+         * Para cuando se quiere usar la tecla ENTER del teclado
+         * agregara el texto al TextArea y borrara el texto del
+         * JTextFild
+         * */
         btnEnviar.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -76,9 +86,9 @@ public class TablasTexArea extends JFrame{
         });
 
         /*
-        * Esto valida si se presiono la teclka enter, para
-        * redirigir el foco del TextField al JButton
-        * */
+         * Esto valida si se presiono la teclka enter, para
+         * redirigir el foco del TextField al JButton
+         * */
         txtTexto.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -89,14 +99,22 @@ public class TablasTexArea extends JFrame{
         });
     }
 
+    // Método para verificar si la cadena es un número
+    private boolean esNumero(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     // Metodo para calcular la tabla de multiplicar
     private void tablaMultiplicar(String entrada) {
-        //txtArea.append("Tabla del " + numero + "\n");
-        //txtArea.setText("Tabla del " + numero + "\n");
         int numero = Integer.parseInt(entrada);
 
         if (numero >= 1 && numero <= 10) {
-            txtArea.append("Tabla del " + numero + "\n");
+            txtArea.append("\nTabla del " + numero + "\n");
             for (int i=1; i <=10; i++) {
                 int resultado = numero * i;
                 txtArea.append(numero + " x " + i + " = " + resultado + "\n");
